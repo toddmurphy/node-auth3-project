@@ -32,8 +32,11 @@ router.post('/login', (req, res) => {
     .first()
     .then(user => {
       console.log('inside user findBy', user);
-      if (user) {
-        res.status(200).json({ message: `Welcome ${user.username}. You currently work in the ${user.department} department.` });
+      if (user && bcrypt.compareSync(password, user.password)) {
+        //create the token
+        const token = signToken(user);
+
+        res.status(200).json({ message: `Welcome ${user.username}, we have a token: ${token}. You currently work in the ${user.department} department.` });
       } else {
         res.status(401).json({ message: 'Sorry, Invalid credentials! ' });
       }
@@ -43,5 +46,20 @@ router.post('/login', (req, res) => {
       res.status(500).json({ message: 'Sorry, login not working on the server', error });
     });
 });
+
+function signToken(user) {
+  const payload = {
+    //add any data we want to store in token payload
+    user
+  };
+
+  const options = {
+    //check documentation for other options available
+    expiresIn: '1d'
+  };
+
+  //return and extract the secret away so it can required and used where needed
+  return jwt.sign(payload, process.env.JWT_SECRET, options);
+}
 
 module.exports = router;
