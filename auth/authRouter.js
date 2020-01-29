@@ -1,5 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const Users = require('../users/userModel');
 
@@ -8,6 +9,10 @@ const router = express.Router();
 //register (POST) --> for endpoint beginning with api/auth
 router.post('/register', (req, res) => {
   const newUser = req.body;
+
+  //create hash for password using bcrypt
+  const hash = bcrypt.hashSync(newUser.password, 10);
+  newUser.password = hash;
 
   Users.addUser(newUser)
     .then(user => {

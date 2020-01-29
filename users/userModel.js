@@ -16,7 +16,6 @@ function getUsers() {
 //findBy
 function findBy(user) {
   return db('users')
-    .select('id', 'username', 'password', 'department')
     .where('username', user) // 'username' is the column --> user is who we're passing in
     .first();
 }
