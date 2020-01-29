@@ -14,13 +14,15 @@ function getUsers() {
 }
 
 //findBy
-function findBy() {
-  //add
+function findBy(user) {
+  return db('users')
+    .select('id', 'username', 'password', 'department')
+    .where('username', user) // 'username' is the column --> user is who we're passing in
+    .first();
 }
 
 //getUserbyID --> get single user
 function getUserbyID(id) {
-  //add
   return db('users')
     .where('id', id) //greed 'id' is the column, red 'id' is the id passing of user we looking for
     .first();
@@ -28,7 +30,6 @@ function getUserbyID(id) {
 
 //addUser --> create a new user
 function addUser(user) {
-  //add
   return db('users')
     .insert(user, 'id')
     .then(ids => {

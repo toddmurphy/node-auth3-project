@@ -7,7 +7,6 @@ const router = express.Router();
 
 //register (POST) --> for endpoint beginning with api/auth
 router.post('/register', (req, res) => {
-  //add logic here
   const newUser = req.body;
 
   Users.addUser(newUser)
@@ -22,7 +21,22 @@ router.post('/register', (req, res) => {
 
 //login (POST) --> for endpoint beginning with api/auth
 router.post('/login', (req, res) => {
-  //add logic here
+  const { username, password, department } = req.body;
+
+  Users.findBy(username)
+    .first()
+    .then(user => {
+      console.log('inside user findBy', user);
+      if (user) {
+        res.status(200).json({ message: `Welcome ${user.username}. You currently work in the ${user.department} department.` });
+      } else {
+        res.status(401).json({ message: 'Sorry, Invalid credentials! ' });
+      }
+    })
+    .catch(error => {
+      console.log('inside login', error);
+      res.status(500).json({ message: 'Sorry, login not working on the server', error });
+    });
 });
 
 module.exports = router;
