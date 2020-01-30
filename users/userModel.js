@@ -5,7 +5,8 @@ module.exports = {
   getUsers,
   findBy,
   addUser,
-  getUserbyID
+  getUserbyID,
+  findByDepartment
 };
 
 //get users
@@ -13,7 +14,7 @@ function getUsers() {
   return db('users');
 }
 
-//findBy
+//findBy -- login --> finding by username
 function findBy(user) {
   return db('users')
     .where('username', user) // 'username' is the column --> user is who we're passing in
@@ -25,6 +26,13 @@ function getUserbyID(id) {
   return db('users')
     .where('id', id) //greed 'id' is the column, red 'id' is the id passing of user we looking for
     .first();
+}
+
+//findByDepartment --> find by department
+function findByDepartment(role) {
+  return db('users')
+    .select('id', 'username', 'department')
+    .where('department', '=', role);
 }
 
 //addUser --> create a new user
