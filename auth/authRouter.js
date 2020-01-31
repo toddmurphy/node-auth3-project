@@ -20,7 +20,7 @@ router.post('/register', (req, res) => {
     })
     .catch(error => {
       console.log('in AuthRouter', error);
-      res.status(500).json({ message: 'Sorry, no new user created on server', error });
+      res.status(500).json({ message: 'Sorry, no new user created on server', errorMessage: error.message });
     });
 });
 
