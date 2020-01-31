@@ -6,7 +6,7 @@ const Users = require('../users/userModel');
 
 const router = express.Router();
 
-//register (POST) --> for endpoint beginning with api/auth
+//register (POST) --> for endpoint beginning with api/auth as
 router.post('/register', (req, res) => {
   const newUser = req.body;
 
