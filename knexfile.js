@@ -2,12 +2,7 @@
 module.exports = {
   development: {
     client: 'pg',
-    connection: {
-      host: 'localhost',
-      user: 'postgres',
-      password: process.env.PASSWORD,
-      database: 'auth3'
-    },
+    connection: process.env.DATABASE_URL,
     migrations: {
       directory: './data/migrations'
     },
